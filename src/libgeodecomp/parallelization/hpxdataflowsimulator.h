@@ -215,7 +215,7 @@ public:
 
                 auto Operation = std::bind(
                     &HPXDataFlowSimulatorHelpers::CellComponent<CELL, MessageType>::update,
-                    *this,
+                    std::ref(*this),
                     // explicit namespace to avoid clashes with boost::bind's placeholders:
                     std::placeholders::_1,
                     std::placeholders::_2,

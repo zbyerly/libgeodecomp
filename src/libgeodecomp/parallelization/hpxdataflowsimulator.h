@@ -341,9 +341,9 @@ public:
         std::size_t numLocalities = hpx::get_num_localities().get();
 
         std::vector<double> rankSpeeds(numLocalities, 1.0);
-        std::vector<std::size_t> weights = LoadBalancer::initialWeights(
-            box.dimensions.prod(),
-            rankSpeeds);
+        //        std::vector<std::size_t> weights = LoadBalancer::initialWeights(
+        //            box.dimensions.prod(),
+        //            rankSpeeds);
 
         Region<1> globalRegion;
         globalRegion << box;
@@ -353,7 +353,7 @@ public:
                 box.origin,
                 box.dimensions,
                 0,
-                weights,
+                initializer->getWeights(globalRegion),
                 initializer->getAdjacency(globalRegion)));
 
         PartitionManager<Topology> partitionManager;

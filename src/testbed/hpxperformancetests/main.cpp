@@ -228,6 +228,16 @@ public:
         return adjacency;
     }
 
+    std::vector<std::size_t> getWeights(const Region<1>& region) const
+    {
+        std::vector<std::size_t> weights;
+	for (Region<1>::Iterator i = region.begin(); i != region.end(); ++i) {
+            std::size_t weight = 0;
+            weights.push_back(weight);
+        }
+        return weights;
+    }
+
 private:
     Coord<2> dim;
 
@@ -486,6 +496,16 @@ public:
 	return adjacency;
     }
 
+    std::vector<std::size_t> getWeights(const Region<1>& region) const
+    {
+        std::vector<std::size_t> weights;
+	for (Region<1>::Iterator i = region.begin(); i != region.end(); ++i) {
+            std::size_t weight = 0;
+            weights.push_back(weight);
+        }
+        return weights;
+    }
+
 private:
     Coord<2> dim;
     int myMaxSteps;
@@ -676,30 +696,30 @@ int hpx_main(int argc, char **argv)
 
     // Function    | Memory | Parallelism | Grid         | Threading | Model         | TestClass
     // ----------- | ------ | ----------- | ------------ | --------- | ------------- | ---------
-    // update      | AoS    | coarse      | structured   | OpenMP    | compute-bound | 
-    // updateLineX | AoS    | coarse      | structured   | OpenMP    | compute-bound | 
+    // update      | AoS    | coarse      | structured   | OpenMP    | compute-bound |
+    // updateLineX | AoS    | coarse      | structured   | OpenMP    | compute-bound |
     // update      | SoA    | coarse      | structured   | OpenMP    | compute-bound | *1
-    // updateLineX | SoA    | coarse      | structured   | OpenMP    | compute-bound | 
-    // update      | AoS    | fine        | structured   | OpenMP    | compute-bound | 
-    // updateLineX | AoS    | fine        | structured   | OpenMP    | compute-bound | 
+    // updateLineX | SoA    | coarse      | structured   | OpenMP    | compute-bound |
+    // update      | AoS    | fine        | structured   | OpenMP    | compute-bound |
+    // updateLineX | AoS    | fine        | structured   | OpenMP    | compute-bound |
     // update      | SoA    | fine        | structured   | OpenMP    | compute-bound | *1
-    // updateLineX | SoA    | fine        | structured   | OpenMP    | compute-bound | 
-    // update      | AoS    | coarse      | unstructured | OpenMP    | compute-bound | 
-    // updateLineX | AoS    | coarse      | unstructured | OpenMP    | compute-bound | 
+    // updateLineX | SoA    | fine        | structured   | OpenMP    | compute-bound |
+    // update      | AoS    | coarse      | unstructured | OpenMP    | compute-bound |
+    // updateLineX | AoS    | coarse      | unstructured | OpenMP    | compute-bound |
     // update      | SoA    | coarse      | unstructured | OpenMP    | compute-bound | *1
-    // updateLineX | SoA    | coarse      | unstructured | OpenMP    | compute-bound | 
-    // update      | AoS    | fine        | unstructured | OpenMP    | compute-bound | 
-    // updateLineX | AoS    | fine        | unstructured | OpenMP    | compute-bound | 
+    // updateLineX | SoA    | coarse      | unstructured | OpenMP    | compute-bound |
+    // update      | AoS    | fine        | unstructured | OpenMP    | compute-bound |
+    // updateLineX | AoS    | fine        | unstructured | OpenMP    | compute-bound |
     // update      | SoA    | fine        | unstructured | OpenMP    | compute-bound | *1
-    // updateLineX | SoA    | fine        | unstructured | OpenMP    | compute-bound | 
-    // update      | AoS    | coarse      | structured   | HPX       | compute-bound | 
-    // updateLineX | AoS    | coarse      | structured   | HPX       | compute-bound | 
+    // updateLineX | SoA    | fine        | unstructured | OpenMP    | compute-bound |
+    // update      | AoS    | coarse      | structured   | HPX       | compute-bound |
+    // updateLineX | AoS    | coarse      | structured   | HPX       | compute-bound |
     // update      | SoA    | coarse      | structured   | HPX       | compute-bound | *1
-    // updateLineX | SoA    | coarse      | structured   | HPX       | compute-bound | 
-    // update      | AoS    | fine        | structured   | HPX       | compute-bound | 
-    // updateLineX | AoS    | fine        | structured   | HPX       | compute-bound | 
+    // updateLineX | SoA    | coarse      | structured   | HPX       | compute-bound |
+    // update      | AoS    | fine        | structured   | HPX       | compute-bound |
+    // updateLineX | AoS    | fine        | structured   | HPX       | compute-bound |
     // update      | SoA    | fine        | structured   | HPX       | compute-bound | *1
-    // updateLineX | SoA    | fine        | structured   | HPX       | compute-bound | 
+    // updateLineX | SoA    | fine        | structured   | HPX       | compute-bound |
     // update      | AoS    | coarse      | unstructured | HPX       | compute-bound | HPXBusyworkCellIron
     // updateLineX | AoS    | coarse      | unstructured | HPX       | compute-bound | HPXBusyworkCellSilver
     // update      | SoA    | coarse      | unstructured | HPX       | compute-bound | *1
@@ -708,68 +728,68 @@ int hpx_main(int argc, char **argv)
     // updateLineX | AoS    | fine        | unstructured | HPX       | compute-bound | HPXBusyworkCellGold
     // update      | SoA    | fine        | unstructured | HPX       | compute-bound | *1
     // updateLineX | SoA    | fine        | unstructured | HPX       | compute-bound | HPXBusyworkCellTitanium
-    // update      | AoS    | coarse      | structured   | CUDA      | compute-bound | 
-    // updateLineX | AoS    | coarse      | structured   | CUDA      | compute-bound | 
+    // update      | AoS    | coarse      | structured   | CUDA      | compute-bound |
+    // updateLineX | AoS    | coarse      | structured   | CUDA      | compute-bound |
     // update      | SoA    | coarse      | structured   | CUDA      | compute-bound | *1
-    // updateLineX | SoA    | coarse      | structured   | CUDA      | compute-bound | 
-    // update      | AoS    | fine        | structured   | CUDA      | compute-bound | 
-    // updateLineX | AoS    | fine        | structured   | CUDA      | compute-bound | 
+    // updateLineX | SoA    | coarse      | structured   | CUDA      | compute-bound |
+    // update      | AoS    | fine        | structured   | CUDA      | compute-bound |
+    // updateLineX | AoS    | fine        | structured   | CUDA      | compute-bound |
     // update      | SoA    | fine        | structured   | CUDA      | compute-bound | *1
-    // updateLineX | SoA    | fine        | structured   | CUDA      | compute-bound | 
-    // update      | AoS    | coarse      | unstructured | CUDA      | compute-bound | 
-    // updateLineX | AoS    | coarse      | unstructured | CUDA      | compute-bound | 
+    // updateLineX | SoA    | fine        | structured   | CUDA      | compute-bound |
+    // update      | AoS    | coarse      | unstructured | CUDA      | compute-bound |
+    // updateLineX | AoS    | coarse      | unstructured | CUDA      | compute-bound |
     // update      | SoA    | coarse      | unstructured | CUDA      | compute-bound | *1
-    // updateLineX | SoA    | coarse      | unstructured | CUDA      | compute-bound | 
-    // update      | AoS    | fine        | unstructured | CUDA      | compute-bound | 
-    // updateLineX | AoS    | fine        | unstructured | CUDA      | compute-bound | 
+    // updateLineX | SoA    | coarse      | unstructured | CUDA      | compute-bound |
+    // update      | AoS    | fine        | unstructured | CUDA      | compute-bound |
+    // updateLineX | AoS    | fine        | unstructured | CUDA      | compute-bound |
     // update      | SoA    | fine        | unstructured | CUDA      | compute-bound | *1
-    // updateLineX | SoA    | fine        | unstructured | CUDA      | compute-bound | 
-    // update      | AoS    | coarse      | structured   | OpenMP    | memory-bound  | 
-    // updateLineX | AoS    | coarse      | structured   | OpenMP    | memory-bound  | 
+    // updateLineX | SoA    | fine        | unstructured | CUDA      | compute-bound |
+    // update      | AoS    | coarse      | structured   | OpenMP    | memory-bound  |
+    // updateLineX | AoS    | coarse      | structured   | OpenMP    | memory-bound  |
     // update      | SoA    | coarse      | structured   | OpenMP    | memory-bound  | *1
-    // updateLineX | SoA    | coarse      | structured   | OpenMP    | memory-bound  | 
-    // update      | AoS    | fine        | structured   | OpenMP    | memory-bound  | 
-    // updateLineX | AoS    | fine        | structured   | OpenMP    | memory-bound  | 
+    // updateLineX | SoA    | coarse      | structured   | OpenMP    | memory-bound  |
+    // update      | AoS    | fine        | structured   | OpenMP    | memory-bound  |
+    // updateLineX | AoS    | fine        | structured   | OpenMP    | memory-bound  |
     // update      | SoA    | fine        | structured   | OpenMP    | memory-bound  | *1
-    // updateLineX | SoA    | fine        | structured   | OpenMP    | memory-bound  | 
-    // update      | AoS    | coarse      | unstructured | OpenMP    | memory-bound  | 
-    // updateLineX | AoS    | coarse      | unstructured | OpenMP    | memory-bound  | 
+    // updateLineX | SoA    | fine        | structured   | OpenMP    | memory-bound  |
+    // update      | AoS    | coarse      | unstructured | OpenMP    | memory-bound  |
+    // updateLineX | AoS    | coarse      | unstructured | OpenMP    | memory-bound  |
     // update      | SoA    | coarse      | unstructured | OpenMP    | memory-bound  | *1
-    // updateLineX | SoA    | coarse      | unstructured | OpenMP    | memory-bound  | 
-    // update      | AoS    | fine        | unstructured | OpenMP    | memory-bound  | 
-    // updateLineX | AoS    | fine        | unstructured | OpenMP    | memory-bound  | 
+    // updateLineX | SoA    | coarse      | unstructured | OpenMP    | memory-bound  |
+    // update      | AoS    | fine        | unstructured | OpenMP    | memory-bound  |
+    // updateLineX | AoS    | fine        | unstructured | OpenMP    | memory-bound  |
     // update      | SoA    | fine        | unstructured | OpenMP    | memory-bound  | *1
-    // updateLineX | SoA    | fine        | unstructured | OpenMP    | memory-bound  | 
-    // update      | AoS    | coarse      | structured   | HPX       | memory-bound  | 
-    // updateLineX | AoS    | coarse      | structured   | HPX       | memory-bound  | 
+    // updateLineX | SoA    | fine        | unstructured | OpenMP    | memory-bound  |
+    // update      | AoS    | coarse      | structured   | HPX       | memory-bound  |
+    // updateLineX | AoS    | coarse      | structured   | HPX       | memory-bound  |
     // update      | SoA    | coarse      | structured   | HPX       | memory-bound  | *1
-    // updateLineX | SoA    | coarse      | structured   | HPX       | memory-bound  | 
-    // update      | AoS    | fine        | structured   | HPX       | memory-bound  | 
-    // updateLineX | AoS    | fine        | structured   | HPX       | memory-bound  | 
+    // updateLineX | SoA    | coarse      | structured   | HPX       | memory-bound  |
+    // update      | AoS    | fine        | structured   | HPX       | memory-bound  |
+    // updateLineX | AoS    | fine        | structured   | HPX       | memory-bound  |
     // update      | SoA    | fine        | structured   | HPX       | memory-bound  | *1
-    // updateLineX | SoA    | fine        | structured   | HPX       | memory-bound  | 
-    // update      | AoS    | coarse      | unstructured | HPX       | memory-bound  | 
-    // updateLineX | AoS    | coarse      | unstructured | HPX       | memory-bound  | 
+    // updateLineX | SoA    | fine        | structured   | HPX       | memory-bound  |
+    // update      | AoS    | coarse      | unstructured | HPX       | memory-bound  |
+    // updateLineX | AoS    | coarse      | unstructured | HPX       | memory-bound  |
     // update      | SoA    | coarse      | unstructured | HPX       | memory-bound  | *1
-    // updateLineX | SoA    | coarse      | unstructured | HPX       | memory-bound  | 
-    // update      | AoS    | fine        | unstructured | HPX       | memory-bound  | 
-    // updateLineX | AoS    | fine        | unstructured | HPX       | memory-bound  | 
+    // updateLineX | SoA    | coarse      | unstructured | HPX       | memory-bound  |
+    // update      | AoS    | fine        | unstructured | HPX       | memory-bound  |
+    // updateLineX | AoS    | fine        | unstructured | HPX       | memory-bound  |
     // update      | SoA    | fine        | unstructured | HPX       | memory-bound  | *1
-    // updateLineX | SoA    | fine        | unstructured | HPX       | memory-bound  | 
-    // update      | AoS    | coarse      | structured   | CUDA      | memory-bound  | 
-    // updateLineX | AoS    | coarse      | structured   | CUDA      | memory-bound  | 
+    // updateLineX | SoA    | fine        | unstructured | HPX       | memory-bound  |
+    // update      | AoS    | coarse      | structured   | CUDA      | memory-bound  |
+    // updateLineX | AoS    | coarse      | structured   | CUDA      | memory-bound  |
     // update      | SoA    | coarse      | structured   | CUDA      | memory-bound  | *1
-    // updateLineX | SoA    | coarse      | structured   | CUDA      | memory-bound  | 
-    // update      | AoS    | fine        | structured   | CUDA      | memory-bound  | 
-    // updateLineX | AoS    | fine        | structured   | CUDA      | memory-bound  | 
+    // updateLineX | SoA    | coarse      | structured   | CUDA      | memory-bound  |
+    // update      | AoS    | fine        | structured   | CUDA      | memory-bound  |
+    // updateLineX | AoS    | fine        | structured   | CUDA      | memory-bound  |
     // update      | SoA    | fine        | structured   | CUDA      | memory-bound  | *1
-    // updateLineX | SoA    | fine        | structured   | CUDA      | memory-bound  | 
-    // update      | AoS    | coarse      | unstructured | CUDA      | memory-bound  | 
-    // updateLineX | AoS    | coarse      | unstructured | CUDA      | memory-bound  | 
+    // updateLineX | SoA    | fine        | structured   | CUDA      | memory-bound  |
+    // update      | AoS    | coarse      | unstructured | CUDA      | memory-bound  |
+    // updateLineX | AoS    | coarse      | unstructured | CUDA      | memory-bound  |
     // update      | SoA    | coarse      | unstructured | CUDA      | memory-bound  | *1
-    // updateLineX | SoA    | coarse      | unstructured | CUDA      | memory-bound  | 
-    // update      | AoS    | fine        | unstructured | CUDA      | memory-bound  | 
-    // updateLineX | AoS    | fine        | unstructured | CUDA      | memory-bound  | 
+    // updateLineX | SoA    | coarse      | unstructured | CUDA      | memory-bound  |
+    // update      | AoS    | fine        | unstructured | CUDA      | memory-bound  |
+    // updateLineX | AoS    | fine        | unstructured | CUDA      | memory-bound  |
     // update      | SoA    | fine        | unstructured | CUDA      | memory-bound  | *1
     // updateLineX | SoA    | fine        | unstructured | CUDA      | memory-bound  |
     //

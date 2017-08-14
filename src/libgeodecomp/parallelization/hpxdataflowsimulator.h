@@ -9,6 +9,7 @@
 
 #include <functional>
 #include <libgeodecomp/geometry/partitions/unstructuredstripingpartition.h>
+#include <libgeodecomp/geometry/partitions/ptscotchunstructuredpartition.h>
 #include <libgeodecomp/geometry/partitionmanager.h>
 #include <libgeodecomp/communication/hpxreceiver.h>
 #include <libgeodecomp/loadbalancer/loadbalancer.h>
@@ -341,9 +342,14 @@ public:
         std::size_t numLocalities = hpx::get_num_localities().get();
 
         std::vector<double> rankSpeeds(numLocalities, 1.0);
-        //        std::vector<std::size_t> weights = LoadBalancer::initialWeights(
-        //            box.dimensions.prod(),
-        //            rankSpeeds);
+
+        if (std::is_same<PARTITION, LibGeoDecomp::PTScotchUnstructuredPartition>::value){
+          std::vector<std::size_t> weights = initializer->getWeights(globalRegion);
+        } else {
+          std::vector<std::size_t> weights = LoadBalancer::initialWeights(
+              box.dimensions.prod(),
+              rankSpeeds);
+        }
 
         Region<1> globalRegion;
         globalRegion << box;
@@ -353,7 +359,7 @@ public:
                 box.origin,
                 box.dimensions,
                 0,
-                initializer->getWeights(globalRegion),
+                weights,
                 initializer->getAdjacency(globalRegion)));
 
         PartitionManager<Topology> partitionManager;

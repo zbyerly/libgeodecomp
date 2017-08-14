@@ -120,7 +120,7 @@ public:
         std::string name = "testMultipleReceivers";
         std::shared_ptr<ReceiverType3> receiver = ReceiverType3::make(name, rank).get();
         std::vector<hpx::future<hpx::id_type> > futures = ReceiverType3::find_all(name, size);
-        std::vector<hpx::id_type> ids = hpx::util::unwrapped(futures);
+        std::vector<hpx::id_type> ids = hpx::util::unwrap(futures);
 
         hpx::lcos::broadcast_apply<ReceiverType3::receiveAction>(ids, rank, rank + 0.456);
 

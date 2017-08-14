@@ -12,6 +12,7 @@
 #include <hpx/lcos/broadcast.hpp>
 #include <hpx/lcos/local/receive_buffer.hpp>
 #include <hpx/runtime/get_ptr.hpp>
+#include <hpx/util/unwrapped.hpp>
 #include <libgeodecomp/communication/hpxserializationwrapper.h>
 #include <libgeodecomp/misc/stringops.h>
 
@@ -104,7 +105,7 @@ public:
             )
             {
                 hpx::lcos::broadcast_apply<typename HPXReceiver::receiveAction>(
-                    hpx::util::unwrapped(idsFuture), rank, data);
+                    hpx::util::unwrap(idsFuture), rank, data);
                 return receiverFuture.get();
             },
             HPXReceiver<CARGO>::make(name, rank),

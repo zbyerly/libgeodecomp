@@ -10,6 +10,7 @@
 #include <hpx/runtime/serialization/vector.hpp>
 #include <hpx/include/lcos.hpp>
 #include <hpx/lcos/broadcast.hpp>
+#include <hpx/util/unwrapped.hpp>
 
 #include <libgeodecomp/communication/hpxserializationwrapper.h>
 #include <libgeodecomp/geometry/partitions/stripingpartition.h>
@@ -253,7 +254,7 @@ private:
         for (std::size_t i = localityIndices[rank + 0]; i < localityIndices[rank + 1]; ++i) {
             updateGroupCreationFutures << hpx::async(&HpxSimulator::createUpdateGroup, this, i, partition);
         }
-        updateGroups = hpx::util::unwrapped(std::move(updateGroupCreationFutures));
+        updateGroups = hpx::util::unwrap(std::move(updateGroupCreationFutures));
 
         for (std::size_t i = localityIndices[rank + 0]; i < localityIndices[rank + 1]; ++i) {
             writerAdaptersGhost[i].clear();

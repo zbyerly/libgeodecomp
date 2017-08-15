@@ -228,16 +228,6 @@ public:
         return adjacency;
     }
 
-    std::vector<std::size_t> getWeights(const Region<1>& region) const
-    {
-        std::vector<std::size_t> weights;
-	for (Region<1>::Iterator i = region.begin(); i != region.end(); ++i) {
-            std::size_t weight = 0;
-            weights.push_back(weight);
-        }
-        return weights;
-    }
-
 private:
     Coord<2> dim;
 
@@ -494,16 +484,6 @@ public:
 	}
 
 	return adjacency;
-    }
-
-    std::vector<std::size_t> getWeights(const Region<1>& region) const
-    {
-        std::vector<std::size_t> weights;
-	for (Region<1>::Iterator i = region.begin(); i != region.end(); ++i) {
-            std::size_t weight = 0;
-            weights.push_back(weight);
-        }
-        return weights;
     }
 
 private:

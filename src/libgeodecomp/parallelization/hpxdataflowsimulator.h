@@ -341,18 +341,26 @@ public:
         std::size_t rank = hpx::get_locality_id();
         std::size_t numLocalities = hpx::get_num_localities().get();
 
-        std::vector<double> rankSpeeds(numLocalities, 1.0);
 
-        if (std::is_same<PARTITION, LibGeoDecomp::PTScotchUnstructuredPartition>::value){
-          std::vector<std::size_t> weights = initializer->getWeights(globalRegion);
-        } else {
-          std::vector<std::size_t> weights = LoadBalancer::initialWeights(
-              box.dimensions.prod(),
-              rankSpeeds);
-        }
+        std::vector<double> rankSpeeds(numLocalities, 1.0);
 
         Region<1> globalRegion;
         globalRegion << box;
+
+        std::vector<std::size_t> weights;
+#ifdef LIBGEODECOMP_WITH_SCOTCH
+        if(std::is_same<UnstructuredStripingPartition, LibGeoDecomp::PTScotchUnstructuredPartition<1> >::value){
+          weights = initializer->getWeights(globalRegion);
+        } else {
+          weights = LoadBalancer::initialWeights(
+              box.dimensions.prod(),
+              rankSpeeds);
+        }
+#else
+        weights = LoadBalancer::initialWeights(
+            box.dimensions.prod(),
+            rankSpeeds);
+#endif
 
         typename SharedPtr<PARTITION>::Type partition(
             new PARTITION(

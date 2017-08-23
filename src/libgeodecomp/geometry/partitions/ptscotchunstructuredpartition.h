@@ -32,12 +32,14 @@ public:
             const Coord<DIM>& dimensions,
             const long offset,
             const std::vector<std::size_t>& weights,
-            const AdjacencyPtr& adjacency) :
+            const AdjacencyPtr& adjacency,
+            const std::vector<double>& cellWeights) :
         Partition<DIM>(offset, weights),
         adjacency(adjacency),
         origin(origin),
         dimensions(dimensions),
-        numCells(dimensions.prod())
+        numCells(dimensions.prod()),
+        cellWeights(cellWeights)
     {
         buildRegions();
     }
@@ -53,6 +55,7 @@ private:
     Coord<DIM> dimensions;
     SCOTCH_Num numCells;
     std::vector<Region<DIM> > regions;
+    std::vector<double> cellWeights;
 
     void buildRegions()
     {
@@ -139,4 +142,3 @@ private:
 #endif
 
 #endif
-

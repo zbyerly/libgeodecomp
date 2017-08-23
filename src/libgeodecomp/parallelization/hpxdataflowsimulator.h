@@ -347,16 +347,24 @@ public:
         Region<1> globalRegion;
         globalRegion << box;
 
+        // To do: fix all of this garbage
         std::vector<std::size_t> weights;
 #ifdef LIBGEODECOMP_WITH_SCOTCH
-        if(std::is_same<UnstructuredStripingPartition, LibGeoDecomp::PTScotchUnstructuredPartition<1> >::value){
-          weights = initializer->getWeights(globalRegion);
+        if(std::is_same<PARTITION, LibGeoDecomp::PTScotchUnstructuredPartition<1> >::value){
+          std::cout << "   >>> using PTScotchUnstructuredPartition" << std::endl;
+          //          weights = initializer->getWeights(globalRegion);
+          weights = LoadBalancer::initialWeights(
+              box.dimensions.prod(),
+              rankSpeeds);
+          std::cout << "   >>> weights.size() = " << weights.size() << std::endl;
         } else {
+          std::cout << "   >>> NOT using PTScotchUnstructuredPartition! <<<   " << std::endl;
           weights = LoadBalancer::initialWeights(
               box.dimensions.prod(),
               rankSpeeds);
         }
 #else
+        std::cout << "   >>> NOT PTScotchUnstructuredPartition! <<<   " << std::endl;
         weights = LoadBalancer::initialWeights(
             box.dimensions.prod(),
             rankSpeeds);
@@ -368,7 +376,8 @@ public:
                 box.dimensions,
                 0,
                 weights,
-                initializer->getAdjacency(globalRegion)));
+                initializer->getAdjacency(globalRegion),
+                initializer->getCellWeights(globalRegion)));
 
         PartitionManager<Topology> partitionManager;
         partitionManager.resetRegions(

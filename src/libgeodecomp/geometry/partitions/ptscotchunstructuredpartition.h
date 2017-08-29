@@ -66,6 +66,14 @@ private:
         createRegions(indices);
     }
 
+    int getCellWeight(int id)
+    {
+        /* return an integer between 1 and 100 */
+        int cellWeight = 100*cellWeights[id];
+        std::cout << "cellWeight = " << cellWeight << std::endl;
+        return cellWeight;
+    }
+
     void initIndices(std::vector<SCOTCH_Num>& indices)
     {
         // create 2D grid
@@ -74,8 +82,12 @@ private:
 
         SCOTCH_Num numEdges = this->adjacency->size();
 
+        std::cout << "numCellWeights = " << this->cellWeights.size() << std::endl;
+        std::cout << "numCells = " << numCells << std::endl;
+
         std::vector<SCOTCH_Num> verttabGra;
         std::vector<SCOTCH_Num> edgetabGra;
+        std::vector<SCOTCH_Num> velotabGra;
 
         verttabGra.reserve(numCells + 1);
         edgetabGra.reserve(numEdges);
@@ -86,23 +98,23 @@ private:
 
             std::size_t before = edgetabGra.size();
             this->adjacency->getNeighbors(i, &edgetabGra);
-
+            velotabGra.push_back(this->getCellWeight(i));
             currentEdge += edgetabGra.size() - before;
         }
 
         verttabGra.push_back(currentEdge);
 
         error = SCOTCH_graphBuild(
-                &graph,
-                0,
-                numCells,
-                &verttabGra[0],
-                nullptr,
-                nullptr,
-                nullptr,
-                numEdges,
-                &edgetabGra[0],
-                nullptr);
+                &graph,               /* grafptr Graph structure to fill             */
+                0,                    /* baseval Base value                          */
+                numCells,             /* vertnbr Number of vertices                  */
+                &verttabGra[0],       /* verttab Vertex array [vertnbr or vertnbr+1] */
+                nullptr,              /* vendtab Vertex end array [vertnbr]          */
+                nullptr,              /* velotab Vertex load array                   */
+                nullptr,              /* vlbltab Vertex label array                  */
+                numEdges,             /* edgenbr Number of edges (arcs)              */
+                &edgetabGra[0],       /* edgetab Edge array [edgenbr]                */
+                nullptr);             /* edlotab Edge load array                     */
         if (error) {
             LOG(FAULT, "SCOTCH_graphBuild error: " << error);
         }

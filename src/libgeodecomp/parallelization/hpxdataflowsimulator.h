@@ -370,14 +370,15 @@ public:
             rankSpeeds);
 #endif
 
-        typename SharedPtr<PARTITION>::Type partition(
-            new PARTITION(
-                box.origin,
-                box.dimensions,
-                0,
-                weights,
-                initializer->getAdjacency(globalRegion),
-                initializer->getCellWeights(globalRegion)));
+
+          typename SharedPtr<PARTITION>::Type partition(
+              new PARTITION(
+                  box.origin,
+                  box.dimensions,
+                  0,
+                  weights,
+                  initializer->getAdjacency(globalRegion),
+                  initializer->getCellWeights(globalRegion)));
 
         PartitionManager<Topology> partitionManager;
         partitionManager.resetRegions(

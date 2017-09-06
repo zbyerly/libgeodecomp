@@ -110,7 +110,7 @@ private:
                 numCells,             /* vertnbr Number of vertices                  */
                 &verttabGra[0],       /* verttab Vertex array [vertnbr or vertnbr+1] */
                 nullptr,              /* vendtab Vertex end array [vertnbr]          */
-                nullptr,              /* velotab Vertex load array                   */
+                &velotabGra[0],              /* velotab Vertex load array                   */
                 nullptr,              /* vlbltab Vertex label array                  */
                 numEdges,             /* edgenbr Number of edges (arcs)              */
                 &edgetabGra[0],       /* edgetab Edge array [edgenbr]                */

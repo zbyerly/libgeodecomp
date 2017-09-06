@@ -27,7 +27,8 @@ public:
         const Coord<1> /* unused: dimensions */,
         const long offset,
         const std::vector<std::size_t>& weights,
-        const AdjacencyPtr& /* unused: adjacency */ = AdjacencyPtr()) :
+        const AdjacencyPtr& /* unused: adjacency */ = AdjacencyPtr(),
+        const std::vector<double> cellWeights = std::vector<double> () ) :
         Partition<1>(origin.x() + offset, weights)
     {}
 
@@ -45,4 +46,3 @@ public:
 }
 
 #endif
-

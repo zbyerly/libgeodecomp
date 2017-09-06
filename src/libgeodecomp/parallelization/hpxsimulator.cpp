@@ -87,14 +87,15 @@ void gatherAndBroadcastLocalityIndices(
     }
 
     if (hpx::get_locality_id() == 0) {
-        std::vector<std::vector<double> > tempGlobalUpdateGroupSpeeds =
+        std::vector<hpx::future<std::vector<double> > > tempGlobalUpdateGroupSpeeds =
             hpx::lcos::broadcast<getUpdateGroupSpeeds_action>(localities, basename).get();
 
         std::vector<std::size_t> indices;
         std::vector<double> flattenedUpdateGroupSpeeds;
         std::size_t indexSum = 0;
 
-        for (auto&& vec: tempGlobalUpdateGroupSpeeds) {
+        for (auto&& vecf: tempGlobalUpdateGroupSpeeds) {
+            auto&& vec = vecf.get();
             for (auto&& weight: vec) {
                 flattenedUpdateGroupSpeeds << weight;
             }
